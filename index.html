@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Lluvia Romántica</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: linear-gradient(-45deg, #ff69b4, #ff1493, #ff8c69, #ff6347);
+      background-size: 400% 400%;
+      animation: gradient 15s ease infinite;
+      font-family: 'Dancing Script', cursive;
+      height: 100vh;
+    }
+
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    #lluvia-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 2;
+      overflow: hidden;
+    }
+
+    .foto-lluvia {
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      border-radius: 10px;
+      object-fit: cover;
+      box-shadow: 0 4px 15px rgba(255, 255, 255, 0.7);
+      border: 2px solid white;
+      animation: caida linear forwards;
+      opacity: 0;
+      z-index: 2;
+      background: rgba(255, 255, 255, 0.2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 30px;
+    }
+
+    @keyframes caida {
+      0% { 
+        transform: translateY(-100px) rotate(0deg) scale(0.8); 
+        opacity: 0; 
+      }
+      10% { 
+        opacity: 1; 
+      }
+      100% { 
+        transform: translateY(110vh) rotate(360deg) scale(1.1); 
+        opacity: 0; 
+      }
+    }
+
+    .corazon-lluvia {
+      position: absolute;
+      font-size: 30px;
+      animation: caida-corazon linear forwards;
+      opacity: 0;
+      z-index: 2;
+      text-shadow: 0 0 10px rgba(255, 20, 147, 0.8);
+    }
+
+    @keyframes caida-corazon {
+      0% { 
+        transform: translateY(-100px) rotate(0deg); 
+        opacity: 0; 
+      }
+      20% { 
+        opacity: 1; 
+      }
+      100% { 
+        transform: translateY(110vh) rotate(180deg); 
+        opacity: 0; 
+      }
+    }
+
+    .frase-romantica {
+      position: absolute;
+      font-size: 1.8em;
+      color: white;
+      text-shadow: 
+        0 0 10px #ff1493,
+        0 0 20px #ff1493,
+        0 0 30px #ff1493;
+      animation: flotar linear forwards;
+      animation-timing-function: ease-in-out;
+      opacity: 0;
+      z-index: 3;
+      white-space: nowrap;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 10px 20px;
+      background: rgba(255, 20, 147, 0.2);
+      border-radius: 20px;
+      min-width: 250px;
+      text-align: center;
+      backdrop-filter: blur(5px);
+    }
+
+    @keyframes flotar {
+        0% { transform: translateX(-50%) translateY(110vh); opacity: 0; }
+        10% { opacity: 1; }
+        90% { opacity: 1; }
+        100% { transform: translateX(-50%) translateY(-10vh); opacity: 0; }
+}
+
+
+    #mensaje-principal {
+      position: absolute;
+      font-size: 3.5em;
+      color: #ffffff;
+      text-shadow: 0 0 20px #ff1493;
+      z-index: 4;
+      pointer-events: none;
+      text-align: center;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation: latido 2s infinite;
+      background: rgba(255, 20, 147, 0.2);
+      padding: 15px 30px;
+      border-radius: 30px;
+      backdrop-filter: blur(5px);
+    }
+
+    @keyframes latido {
+      0% { transform: translate(-50%, -50%) scale(1); }
+      50% { transform: translate(-50%, -50%) scale(1.1); }
+      100% { transform: translate(-50%, -50%) scale(1); }
+    }
+
+    .bubble {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.15);
+      animation: float linear infinite;
+      z-index: 1;
+      backdrop-filter: blur(2px);
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+      100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+    }
+
+    @media (max-width: 768px) {
+      .frase-romantica {
+        font-size: 1.4em;
+        min-width: 200px;
+      }
+      #mensaje-principal {
+        font-size: 2.5em;
+      }
+    }
+
+    .play-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(255, 20, 147, 0.7);
+  color: white;
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.2em;
+  padding: 10px 20px;
+  border: 2px solid white;
+  border-radius: 30px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+  z-index: 10;
+}
+
+.play-btn:hover {
+  background: rgba(255, 20, 147, 0.9);
+  transform: translateY(-2px);
+}
+
+.play-btn:active {
+  transform: translateY(1px);
+}
+
+  </style>
+</head>
+<body>
+    <button id="playMusic" class="play-btn">
+  🎵 Reproducir Música
+</button>
+
+<audio id="music" loop>
+  <source src="Ed_Sheeran_-_Perfect.mp3" type="audio/mpeg">
+</audio>
+
+  <div id="lluvia-container"></div>
+  <div id="mensaje-principal">Te quiero mucho<br>Estrella ❤️</div>
+  <script>
+    const config = {
+      velocidadFotos: 6,
+      velocidadCorazones: 7,
+      frecuenciaFotos: 500,
+      frecuenciaCorazones: 400,
+      frecuenciaFrases: 120000
+    };
+
+    document.getElementById('playMusic').addEventListener('click', () => {
+  const audio = document.getElementById('music');
+  if (audio.paused) {
+    audio.play().catch(err => console.log('Error al reproducir:', err));
+    document.getElementById('playMusic').textContent = '⏸ Pausar Música';
+  } else {
+    audio.pause();
+    document.getElementById('playMusic').textContent = '🎵 Reproducir Música';
+  }
+});
+
+
+    const container = document.getElementById("lluvia-container");
+        const frasesRomanticas = [
+      "✨ Eres mi sueño✨",
+      "💖 Mi corazón es tuyo 💖",
+      "🌎 X100pre mi 🌎",
+      "🌟 Eres mi luz 🌟",
+      "😍 Solo contigo😍",
+      "💑 La unica 💑",
+      "🌹 Juntos para siempre 🌹",
+      "Mi amor por ti ∞",
+      "Mi deseo 🥺",
+      "mi razon🥰"
+    ];
+
+// Define tu lista de imágenes
+const fotos = [
+  'uno.jpg',
+  'tres.jpg',
+  'dos.jpg',
+  'cuatro.jpg',
+  'uno.jpg',
+  'cinco.jpg',
+  'dos.jpg',
+  'seis.jpg'
+];
+
+function crearFoto() {
+  const foto = document.createElement("div");
+  foto.className = "foto-lluvia";
+
+  // Elegir ruta aleatoria
+  const url = fotos[Math.floor(Math.random() * fotos.length)];
+
+  // Crear un elemento <img> dentro del div
+  const img = document.createElement("img");
+  img.src = url;
+  img.style.width = "100%";
+  img.style.height = "100%";
+  img.style.objectFit = "cover";
+  img.style.borderRadius = "10px";
+  foto.appendChild(img);
+
+  // Posición, animación y agregado al contenedor
+  foto.style.left = `${Math.random() * window.innerWidth}px`;
+  foto.style.animationDuration = `${config.velocidadFotos + Math.random() * 2}s`;
+  container.appendChild(foto);
+
+  foto.addEventListener("animationend", () => foto.remove());
+}
+
+
+    function crearCorazon() {
+      const corazon = document.createElement("div");
+      corazon.className = "corazon-lluvia";
+      corazon.innerHTML = ["❤️","💖","🌟","💘","✨","💕","💓","⭐"][Math.floor(Math.random() * 5)];
+      corazon.style.left = `${Math.random() * window.innerWidth}px`;
+      corazon.style.fontSize = `${30 + Math.random() * 20}px`; // Corregido
+      corazon.style.animationDuration = `${config.velocidadCorazones + Math.random() * 2}s`;
+      container.appendChild(corazon);
+      corazon.addEventListener("animationend", () => corazon.remove());
+    }
+
+    function crearFrase() {
+      const frase = document.createElement("div");
+      frase.className = "frase-romantica";
+      frase.textContent = frasesRomanticas[Math.floor(Math.random() * frasesRomanticas.length)];
+      const margin = 150;
+      const maxX = window.innerWidth - margin * 2;
+      frase.style.left = `${margin + Math.random() * maxX}px`;
+      const duracion = 50 + Math.random() * 50; 
+      frase.style.animationDuration = `${duracion}s`;
+      container.appendChild(frase);
+      setTimeout(() => frase.remove(), duracion * 1000);
+    }
+
+    function crearBurbuja() {
+      const bubble = document.createElement("div");
+      bubble.className = "bubble";
+      const size = Math.random() * 60 + 30;
+      bubble.style.width = bubble.style.height = `${size}px`;
+      bubble.style.left = `${Math.random() * window.innerWidth}px`;
+      bubble.style.bottom = "-70px";
+      bubble.style.animationDuration = `${10 + Math.random() * 15}s`;
+      document.body.appendChild(bubble);
+      setTimeout(() => bubble.remove(), parseFloat(bubble.style.animationDuration) * 1000);
+    }
+
+    function loopAnimacion() {
+      crearFoto();
+      crearCorazon();
+      crearFrase();
+      crearBurbuja();
+      requestAnimationFrame(() => setTimeout(loopAnimacion, config.frecuenciaFotos));
+    }
+
+    window.onload = () => {
+      loopAnimacion();
+      window.addEventListener('resize', () => {
+        document.querySelectorAll('.foto-lluvia, .corazon-lluvia').forEach(el => {
+          if (parseFloat(el.style.left) > window.innerWidth) {
+            el.style.left = `${Math.random() * window.innerWidth}px`;
+          }
+        });
+      });
+    };
+  </script>
+</body>
+</html>
