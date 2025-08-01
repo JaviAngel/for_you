@@ -9,7 +9,7 @@
     body {
       margin: 0;
       overflow: hidden;
-      background: linear-gradient(-45deg, #ff69b4, #ff1493, #ff8c69, #ff6347);
+      background: linear-gradient(-45deg, #50293d, #ff1493, #ff8c69, #ff6347);
       background-size: 400% 400%;
       animation: gradient 15s ease infinite;
       font-family: 'Dancing Script', cursive;
@@ -37,8 +37,8 @@
 
     .foto-lluvia {
       position: absolute;
-      width: 200px;
-      height: 200px;
+      width: 215px;
+      height: 215px;
       border-radius: 10px;
       object-fit: cover;
       box-shadow: 0 4px 15px rgba(255, 255, 255, 0.7);
@@ -71,7 +71,7 @@
 
     .corazon-lluvia {
       position: absolute;
-      font-size: 32px;
+      font-size: 200px;
       animation: caida-corazon linear forwards;
       opacity: 0;
       z-index: 2;
@@ -95,7 +95,7 @@
 
     .frase-romantica {
       position: absolute;
-      font-size: 1.4em;
+      font-size: 2.2em;
       color: white;
       text-shadow: 
         0 0 10px #ff1493,
@@ -151,8 +151,8 @@
 
     .bubble {
       position: absolute;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.15);
+      border-radius: 70%;
+      background: rgba(22, 22, 22, 0.15);
       animation: float linear infinite;
       z-index: 1;
       backdrop-filter: blur(2px);
@@ -301,7 +301,7 @@
       velocidadFotos: 8,
       velocidadCorazones: 9,
       frecuenciaFotos: 800,
-      frecuenciaCorazones: 600,
+      frecuenciaCorazones: 50,
       frecuenciaFrases: 600, // Frases cada 15 segundos (antes era 120000 = 2 minutos)
       duracionFrases: 15000, // Duración de 10 segundos (antes era 50-100 segundos)
       maxElementos: 20
@@ -410,23 +410,24 @@
     }
 
     function crearCorazon() {
-      if (elementosActivos >= config.maxElementos) return;
-      
-      const corazon = document.createElement("div");
-      corazon.className = "corazon-lluvia";
-      corazon.innerHTML = ["❤️","💖","🌟","💘","✨","💕","💓","⭐"][Math.floor(Math.random() * 5)];
-      corazon.style.left = `${Math.random() * window.innerWidth}px`;
-      corazon.style.fontSize = `${20 + Math.random() * 15}px`;
-      const duracion = config.velocidadCorazones + Math.random() * 2;
-      corazon.style.animationDuration = `${duracion}s`;
-      container.appendChild(corazon);
-      elementosActivos++;
+  if (elementosActivos >= config.maxElementos) return;
+  
+  const corazon = document.createElement("div");
+  corazon.className = "corazon-lluvia";
+  const corazones = ["❤️","💖","🌟","💘","✨","💕","💓","⭐"];
+  corazon.innerHTML = corazones[Math.floor(Math.random() * corazones.length)];
+  corazon.style.left = `${Math.random() * window.innerWidth}px`;
+  corazon.style.fontSize = `${70 + Math.random() * 50}px`;
+  const duracion = config.velocidadCorazones + Math.random() * 2;
+  corazon.style.animationDuration = `${duracion}s`;
+  container.appendChild(corazon);
+  elementosActivos++;
 
-      corazon.addEventListener("animationend", () => {
-        corazon.remove();
-        elementosActivos--;
-      });
-    }
+  corazon.addEventListener("animationend", () => {
+    corazon.remove();
+    elementosActivos--;
+  });
+}
 
     function crearFrase() {
       if (elementosActivos >= config.maxElementos) return;
@@ -453,7 +454,7 @@
       
       const bubble = document.createElement("div");
       bubble.className = "bubble";
-      const size = Math.random() * 40 + 20;
+      const size = Math.random() * 60 + 30;
       bubble.style.width = bubble.style.height = `${size}px`;
       bubble.style.left = `${Math.random() * window.innerWidth}px`;
       bubble.style.bottom = "-70px";
