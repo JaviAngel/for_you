@@ -165,108 +165,62 @@
     }
 
     /* Reproductor de música más compacto */
-    .music-player {
-      position: fixed;
-      top: 10px;
-      right: 10px;
-      background: rgba(255, 255, 255, 0.85);
-      border-radius: 12px;
-      padding: 8px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-      z-index: 10;
-      backdrop-filter: blur(5px);
-      border: 1px solid white;
-      width: 120px;
-      transition: all 0.3s ease;
-    }
+    /* Reproductor de música - Versión grande */
+/* Reproductor de música - Centrado */
+.music-player {
+  position: fixed;
+  top: 15px;
+  left: 90%; /* Centrado horizontal */
+  transform: translateX(-50%); /* Ajuste fino para centrar */
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 15px;
+  padding: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  backdrop-filter: blur(5px);
+  border: 1px solid white;
+  width: 180px;
+  text-align: center; /* Centra el texto interno */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centra elementos hijos */
+}
 
-    .player-header {
-      display: flex;
-      align-items: center;
-      margin-bottom: 6px;
-    }
+.player-header {
+  display: flex;
+  justify-content: center; /* Centra ícono y título */
+  align-items: center;
+  margin-bottom: 8px;
+  width: 100%;
+}
 
-    .player-header h3 {
-      margin: 0;
-      color: #ff1493;
-      font-size: 0.8em;
-      text-shadow: 0 1px 3px rgba(255, 20, 147, 0.2);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
+.player-controls {
+  display: flex;
+  justify-content: center; /* Centra el botón */
+  width: 100%;
+}
 
-    .player-icon {
-      font-size: 1em;
-      margin-right: 6px;
-      color: #ff1493;
-    }
+.player-progress {
+  width: 90%; /* Ancho ligeramente reducido para mejor proporción */
+  margin: 10px auto; /* Centrado automático */
+}
 
-    .player-controls {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .player-btn {
-      background: #ff1493;
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 24px;
-      height: 24px;
-      font-size: 0.8em;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 2px 4px rgba(255, 20, 147, 0.3);
-      transition: all 0.2s ease;
-    }
-
-    .player-btn:hover {
-      transform: scale(1.05);
-    }
-
-    .player-progress {
-      width: 100%;
-      height: 3px;
-      background: rgba(255, 20, 147, 0.2);
-      border-radius: 2px;
-      margin: 6px 0 4px;
-      overflow: hidden;
-      cursor: pointer;
-    }
-
-    .progress-bar {
-      height: 100%;
-      background: linear-gradient(to right, #ff1493, #ff69b4);
-      width: 0%;
-      border-radius: 2px;
-      transition: width 0.1s linear;
-    }
-
-    .player-time {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.6em;
-      color: #ff1493;
-    }
+.player-time {
+  justify-content: center; /* Centra los tiempos */
+  gap: 15px; /* Espacio entre "0:00" y "3:45" */
+}
 
     /* Ocultar elementos en móviles muy pequeños */
     @media (max-width: 400px) {
-      .player-header h3 {
-        display: none;
-      }
-      .music-player {
-        width: auto;
-        padding: 6px;
-      }
-      .player-btn {
-        width: 22px;
-        height: 22px;
-      }
-    }
+  .music-player {
+    width: 160px; /* Un poco más estrecho en móviles */
+    padding: 10px;
+  }
+  .player-btn {
+    width: 28px;
+    height: 28px;
+  }
+}
   </style>
 </head>
 <body>
