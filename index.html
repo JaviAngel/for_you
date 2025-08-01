@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lluvia Romántica</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: linear-gradient(-45deg, #ff69b4, #ff1493, #ff8c69, #ff6347);
+      background-size: 400% 400%;
+      animation: gradient 15s ease infinite;
+      font-family: 'Dancing Script', cursive;
+      height: 100vh;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    #lluvia-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 2;
+      overflow: hidden;
+      will-change: transform;
+    }
+
+    .foto-lluvia {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      border-radius: 10px;
+      object-fit: cover;
+      box-shadow: 0 4px 15px rgba(255, 255, 255, 0.7);
+      border: 2px solid white;
+      animation: caida linear forwards;
+      opacity: 0;
+      z-index: 2;
+      background: rgba(255, 255, 255, 0.2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 24px;
+      will-change: transform, opacity;
+    }
+
+    @keyframes caida {
+      0% { 
+        transform: translateY(-100px) rotate(0deg) scale(0.8); 
+        opacity: 0; 
+      }
+      10% { 
+        opacity: 1; 
+      }
+      100% { 
+        transform: translateY(110vh) rotate(360deg) scale(1.1); 
+        opacity: 0; 
+      }
+    }
+
+    .corazon-lluvia {
+      position: absolute;
+      font-size: 24px;
+      animation: caida-corazon linear forwards;
+      opacity: 0;
+      z-index: 2;
+      text-shadow: 0 0 10px rgba(255, 20, 147, 0.8);
+      will-change: transform, opacity;
+    }
+
+    @keyframes caida-corazon {
+      0% { 
+        transform: translateY(-100px) rotate(0deg); 
+        opacity: 0; 
+      }
+      20% { 
+        opacity: 1; 
+      }
+      100% { 
+        transform: translateY(110vh) rotate(180deg); 
+        opacity: 0; 
+      }
+    }
+
+    .frase-romantica {
+      position: absolute;
+      font-size: 1.4em;
+      color: white;
+      text-shadow: 
+        0 0 10px #ff1493,
+        0 0 20px #ff1493,
+        0 0 30px #ff1493;
+      animation: flotar linear forwards;
+      animation-timing-function: ease-in-out;
+      opacity: 0;
+      z-index: 3;
+      white-space: nowrap;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 8px 16px;
+      background: rgba(255, 20, 147, 0.2);
+      border-radius: 20px;
+      min-width: 200px;
+      text-align: center;
+      backdrop-filter: blur(5px);
+      will-change: transform, opacity;
+    }
+
+    @keyframes flotar {
+        0% { transform: translateX(-50%) translateY(110vh); opacity: 0; }
+        10% { opacity: 1; }
+        90% { opacity: 1; }
+        100% { transform: translateX(-50%) translateY(-10vh); opacity: 0; }
+    }
+
+    #mensaje-principal {
+      position: absolute;
+      font-size: 2.2em;
+      color: #ffffff;
+      text-shadow: 0 0 20px #432a37;
+      z-index: 4;
+      pointer-events: none;
+      text-align: center;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation: latido 2s infinite;
+      background: rgba(255, 20, 147, 0.2);
+      padding: 12px 24px;
+      border-radius: 30px;
+      backdrop-filter: blur(5px);
+      will-change: transform;
+    }
+
+    @keyframes latido {
+      0% { transform: translate(-50%, -50%) scale(1); }
+      50% { transform: translate(-50%, -50%) scale(1.05); }
+      100% { transform: translate(-50%, -50%) scale(1); }
+    }
+
+    .bubble {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.15);
+      animation: float linear infinite;
+      z-index: 1;
+      backdrop-filter: blur(2px);
+      will-change: transform, opacity;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+      100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* Reproductor de música más compacto */
+    .music-player {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 12px;
+      padding: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      z-index: 10;
+      backdrop-filter: blur(5px);
+      border: 1px solid white;
+      width: 120px;
+      transition: all 0.3s ease;
+    }
+
+    .player-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .player-header h3 {
+      margin: 0;
+      color: #ff1493;
+      font-size: 0.8em;
+      text-shadow: 0 1px 3px rgba(255, 20, 147, 0.2);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .player-icon {
+      font-size: 1em;
+      margin-right: 6px;
+      color: #ff1493;
+    }
+
+    .player-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .player-btn {
+      background: #ff1493;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      font-size: 0.8em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 4px rgba(255, 20, 147, 0.3);
+      transition: all 0.2s ease;
+    }
+
+    .player-btn:hover {
+      transform: scale(1.05);
+    }
+
+    .player-progress {
+      width: 100%;
+      height: 3px;
+      background: rgba(255, 20, 147, 0.2);
+      border-radius: 2px;
+      margin: 6px 0 4px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(to right, #ff1493, #ff69b4);
+      width: 0%;
+      border-radius: 2px;
+      transition: width 0.1s linear;
+    }
+
+    .player-time {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.6em;
+      color: #ff1493;
+    }
+
+    /* Ocultar elementos en móviles muy pequeños */
+    @media (max-width: 400px) {
+      .player-header h3 {
+        display: none;
+      }
+      .music-player {
+        width: auto;
+        padding: 6px;
+      }
+      .player-btn {
+        width: 22px;
+        height: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Reproductor de música compacto -->
+  <div class="music-player" id="musicPlayer">
+    <div class="player-header">
+      <span class="player-icon">🎵</span>
+      <h3>Perfect</h3>
+    </div>
+    <div class="player-controls">
+      <button class="player-btn" id="playBtn">▶️</button>
+    </div>
+    <div class="player-progress" id="progressContainer">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <div class="player-time">
+      <span id="currentTime">0:00</span>
+      <span id="duration">0:00</span>
+    </div>
+  </div>
+
+  <audio id="music" loop preload="auto">
+    <source src="Ed_Sheeran_-_Perfect.mp3" type="audio/mpeg">
+  </audio>
+
+  <div id="lluvia-container"></div>
+  <div id="mensaje-principal">Te quiero mucho<br>Estrella ❤️</div>
+  
+  <script>
+    // Configuración optimizada
+    const config = {
+      velocidadFotos: 8,
+      velocidadCorazones: 9,
+      frecuenciaFotos: 800,
+      frecuenciaCorazones: 600,
+      frecuenciaFrases: 600, // Frases cada 15 segundos (antes era 120000 = 2 minutos)
+      duracionFrases: 15000, // Duración de 10 segundos (antes era 50-100 segundos)
+      maxElementos: 20
+    };
+
+    // Contador de elementos activos
+    let elementosActivos = 0;
+
+    // Elementos del reproductor de música
+    const musicPlayer = document.getElementById('musicPlayer');
+    const playBtn = document.getElementById('playBtn');
+    const progressBar = document.getElementById('progressBar');
+    const progressContainer = document.getElementById('progressContainer');
+    const currentTimeEl = document.getElementById('currentTime');
+    const durationEl = document.getElementById('duration');
+    const audio = document.getElementById('music');
+
+    // Función para formatear el tiempo
+    function formatTime(seconds) {
+      const minutes = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+    }
+
+    // Actualizar barra de progreso
+    function updateProgress() {
+      progressBar.style.width = (audio.currentTime / audio.duration) * 100 + '%';
+      currentTimeEl.textContent = formatTime(audio.currentTime);
+      durationEl.textContent = formatTime(audio.duration);
+    }
+
+    // Establecer progreso al hacer clic
+    function setProgress(e) {
+      const width = this.clientWidth;
+      const clickX = e.offsetX;
+      audio.currentTime = (clickX / width) * audio.duration;
+    }
+
+    // Control de reproducción
+    playBtn.addEventListener('click', () => {
+      if (audio.paused) {
+        audio.play();
+        playBtn.textContent = '⏸';
+      } else {
+        audio.pause();
+        playBtn.textContent = '▶️';
+      }
+    });
+
+    // Actualizar tiempo cada segundo
+    audio.addEventListener('timeupdate', updateProgress);
+    audio.addEventListener('loadedmetadata', updateProgress);
+    progressContainer.addEventListener('click', setProgress);
+
+    // Animaciones
+    const container = document.getElementById("lluvia-container");
+    const frasesRomanticas = [
+      "✨ Eres mi sueño ✨",
+      "💖 Mi corazón es tuyo 💖",
+      "🌎 X100pre mi 🌎",
+      "🌟 Eres mi luz 🌟",
+      "😍 Solo contigo 😍",
+      "💑 La unica 💑",
+      "🌹 Juntos para siempre 🌹",
+      "Mi amor por ti ∞",
+      "Mi deseo 🥺",
+      "mi razon 🥰"
+    ];
+
+    const fotos = [
+      'uno.jpg',
+      'tres.jpg',
+      'dos.jpg',
+      'cuatro.jpg',
+      'uno.jpg',
+      'cinco.jpg',
+      'dos.jpg',
+      'seis.jpg'
+    ];
+
+    function crearFoto() {
+      if (elementosActivos >= config.maxElementos) return;
+      
+      const foto = document.createElement("div");
+      foto.className = "foto-lluvia";
+
+      const url = fotos[Math.floor(Math.random() * fotos.length)];
+      const img = document.createElement("img");
+      img.src = url;
+      img.style.width = "100%";
+      img.style.height = "100%";
+      img.style.objectFit = "cover";
+      img.style.borderRadius = "10px";
+      foto.appendChild(img);
+
+      foto.style.left = `${Math.random() * window.innerWidth}px`;
+      const duracion = config.velocidadFotos + Math.random() * 2;
+      foto.style.animationDuration = `${duracion}s`;
+      container.appendChild(foto);
+      elementosActivos++;
+
+      foto.addEventListener("animationend", () => {
+        foto.remove();
+        elementosActivos--;
+      });
+    }
+
+    function crearCorazon() {
+      if (elementosActivos >= config.maxElementos) return;
+      
+      const corazon = document.createElement("div");
+      corazon.className = "corazon-lluvia";
+      corazon.innerHTML = ["❤️","💖","🌟","💘","✨","💕","💓","⭐"][Math.floor(Math.random() * 5)];
+      corazon.style.left = `${Math.random() * window.innerWidth}px`;
+      corazon.style.fontSize = `${20 + Math.random() * 15}px`;
+      const duracion = config.velocidadCorazones + Math.random() * 2;
+      corazon.style.animationDuration = `${duracion}s`;
+      container.appendChild(corazon);
+      elementosActivos++;
+
+      corazon.addEventListener("animationend", () => {
+        corazon.remove();
+        elementosActivos--;
+      });
+    }
+
+    function crearFrase() {
+      if (elementosActivos >= config.maxElementos) return;
+      
+      const frase = document.createElement("div");
+      frase.className = "frase-romantica";
+      frase.textContent = frasesRomanticas[Math.floor(Math.random() * frasesRomanticas.length)];
+      const margin = 50;
+      const maxX = window.innerWidth - margin * 2;
+      frase.style.left = `${margin + Math.random() * maxX}px`;
+      const duracion = config.duracionFrases / 1000; // Convertir a segundos
+      frase.style.animationDuration = `${duracion}s`;
+      container.appendChild(frase);
+      elementosActivos++;
+
+      setTimeout(() => {
+        frase.remove();
+        elementosActivos--;
+      }, config.duracionFrases);
+    }
+
+    function crearBurbuja() {
+      if (elementosActivos >= config.maxElementos) return;
+      
+      const bubble = document.createElement("div");
+      bubble.className = "bubble";
+      const size = Math.random() * 40 + 20;
+      bubble.style.width = bubble.style.height = `${size}px`;
+      bubble.style.left = `${Math.random() * window.innerWidth}px`;
+      bubble.style.bottom = "-70px";
+      const duracion = 8 + Math.random() * 10;
+      bubble.style.animationDuration = `${duracion}s`;
+      document.body.appendChild(bubble);
+      elementosActivos++;
+
+      setTimeout(() => {
+        bubble.remove();
+        elementosActivos--;
+      }, duracion * 1000);
+    }
+
+    function loopAnimacion() {
+      if (document.hidden) return;
+      
+      crearFoto();
+      crearCorazon();
+      if (Math.random() > 0.7) crearBurbuja();
+      
+      setTimeout(() => {
+        requestAnimationFrame(loopAnimacion);
+      }, config.frecuenciaFotos);
+    }
+
+    function iniciarFrases() {
+      if (!document.hidden) {
+        crearFrase();
+      }
+      setTimeout(iniciarFrases, config.frecuenciaFrases);
+    }
+
+    window.onload = () => {
+      loopAnimacion();
+      iniciarFrases();
+      
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) {
+          loopAnimacion();
+        }
+      });
+      
+      window.addEventListener('resize', () => {
+        document.querySelectorAll('.foto-lluvia, .corazon-lluvia').forEach(el => {
+          if (parseFloat(el.style.left) > window.innerWidth) {
+            el.style.left = `${Math.random() * window.innerWidth}px`;
+          }
+        });
+      });
+    };
+  </script>
+</body>
+</html>
